@@ -1,0 +1,17 @@
+.UserEntry {
+    position: relative;
+    width: 90%;
+    height: 20%;
+    min-height: 20%;
+    max-height:20%;
+    color: white;
+    /* border: 1px solid black; */
+}
+
+.UserInput {
+  width: 50%;
+  background-color: #008724;
+  border: none;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+}

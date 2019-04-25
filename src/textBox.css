@@ -1,0 +1,9 @@
+.textBox {
+    position: relative;
+    width: 90%;
+    height: 30%;
+    min-height: 30%;
+    max-height:30%;
+    /* border: 1px solid black; */
+    color: white
+}

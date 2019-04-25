@@ -1,0 +1,9 @@
+.info {
+    position: relative;
+    width: 90%;
+    height: 20%;
+    min-height: 20%;
+    max-height:20%;
+    /* border: 1px solid black; */
+    color: white
+}
