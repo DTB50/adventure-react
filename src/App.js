@@ -6,7 +6,9 @@ import Info from './info.js';
 // import { parseEntry, changeRoom, validMoveCheck } from './supportingFunctions.js'
 import rooms from './rooms.js';
 import obstacles from './items.js';
+import setDressing from './setDressing.js';
 import pickups from './pickups.js';
+
 
 class App extends Component {
   constructor() {
@@ -179,6 +181,7 @@ validMoveCheck (direction, room) {
 // LOOK ///////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 check(subject, room) {
+  console.log(room.setDressing);
 //check if the object is in the room and check if it has been solved
   if (room.obstacles.includes(subject)){
       for (let i = 0; i < obstacles.length; i++){
@@ -190,6 +193,14 @@ check(subject, room) {
           else {
             this.setState({ resultMessage: "You see " + obstacles[i].descriptionSolved });
           }
+        }
+      }
+  }
+  else if (room.setDressing.includes(subject)){
+    console.log("subject is in room");
+      for (let i = 0; i < setDressing.length; i++){
+        if (setDressing[i].name === subject && room.roomId === setDressing[i].roomFound){
+          this.setState({ resultMessage: setDressing[i].description });
         }
       }
   }
@@ -286,13 +297,15 @@ use(subject, object, room) {
   //If the item is in the room, pick it up (and remove it from the room)
   get(currentSubject, room) {
     console.log("activating get function for " + currentSubject);
-    console.log(room.pickups);
+    console.log(room.pickups)
+    let itemGot = false;
     //run through the pickups
     for (let i = 0; i < room.pickups.length; i++) {
       if (currentSubject === room.pickups[i]){
         //update inventory and inInventory status of item
         console.log(room.pickups);
         this.setState({ inventory: [...this.state.inventory, room.pickups[i]] });
+        itemGot = true;
         let pickUpMessage = "You got the " + room.pickups[i];
         this.setState({ resultMessage: pickUpMessage });
         this.alterPickupState(currentSubject, true);
@@ -314,6 +327,9 @@ use(subject, object, room) {
           }
         }
       }
+    }
+    if (itemGot === false){
+      this.setState({ resultMessage: "You can't get that."})
     }
   }
 
@@ -404,16 +420,38 @@ use(subject, object, room) {
     }
     console.log(descriptionText);
 
-    //If that obstacle is not solved, list it
+    //List things to look at around the room.
+    if (room.setDressing.length === 0){
+      descriptionText = descriptionText + " You don't see anything else worth examining."
+    }
+    else if (room.setDressing.length === 1){
+      descriptionText = descriptionText + " You see a " + room.setDressing[0] + ".";
+    }
+    else if (room.setDressing.length >= 1){
+      descriptionText = descriptionText + " You also see "
+      for (let i = 0; i < room.setDressing.length; i++){
+        if (i === 0){
+          descriptionText = descriptionText + "a " + room.setDressing[i];
+        }
+        else if (i >= 1 && i < room.setDressing.length-1){
+          descriptionText = descriptionText + ", a " + room.setDressing[i];
+        }
+        else if (i >= 1 && i === room.setDressing.length-1){
+          descriptionText = descriptionText + " and a " + room.setDressing[i] + ".";
+        }
+      }
+    }
+
+
     //Check for items and list these
     if (room.pickups.length === 0){
       descriptionText = descriptionText + " You don't see anything worth picking up."
     }
     else if (room.pickups.length === 1){
-      descriptionText = descriptionText + " You see a " + room.pickups[0] + ".";
+      descriptionText = descriptionText + " Looking for things that might be useful, you see a " + room.pickups[0] + ".";
     }
     else if (room.pickups.length >= 1){
-      descriptionText = descriptionText + " You also see "
+      descriptionText = descriptionText + " Looking for things that might be useful, you also see "
       for (let i = 0; i < room.pickups.length; i++){
         if (i === 0){
           descriptionText = descriptionText + "a " + room.pickups[i];
@@ -461,16 +499,37 @@ use(subject, object, room) {
     }
     console.log(descriptionText);
 
-    //If that obstacle is not solved, list it
+    //List things to look at around the room.
+    if (room.setDressing.length === 0){
+      descriptionText = descriptionText + " You don't see anything else worth examining."
+    }
+    else if (room.setDressing.length === 1){
+      descriptionText = descriptionText + " You see a " + room.setDressing[0] + ".";
+    }
+    else if (room.setDressing.length >= 1){
+      descriptionText = descriptionText + " You also see "
+      for (let i = 0; i < room.setDressing.length; i++){
+        if (i === 0){
+          descriptionText = descriptionText + "a " + room.setDressing[i];
+        }
+        else if (i >= 1 && i < room.setDressing.length-1){
+          descriptionText = descriptionText + ", a " + room.setDressing[i];
+        }
+        else if (i >= 1 && i === room.setDressing.length-1){
+          descriptionText = descriptionText + " and a " + room.setDressing[i] + ".";
+        }
+      }
+    }
+
     //Check for items and list these
     if (room.pickups.length === 0){
       descriptionText = descriptionText + " You don't see anything worth picking up."
     }
     else if (room.pickups.length === 1){
-      descriptionText = descriptionText + " You see a " + room.pickups[0] + ".";
+      descriptionText = descriptionText + " Looking for things that might be useful, you see a " + room.pickups[0] + ".";
     }
     else if (room.pickups.length >= 1){
-      descriptionText = descriptionText + " You also see "
+      descriptionText = descriptionText + " Looking for things that might be useful, you also see "
       for (let i = 0; i < room.pickups.length; i++){
         if (i === 0){
           descriptionText = descriptionText + "a " + room.pickups[i];
