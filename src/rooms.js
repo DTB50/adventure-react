@@ -50,7 +50,7 @@ var rooms = [
     description: "This stone cell isn't as nice as the one you woke up in. For one thing, yours didn't have a body in the corner. Well, aside from your own, which was still alive. You decide resolutely not to interact with the body, so don't even try it.",
     pickups: ["pickaxe"],
     obstacles: [""],
-    setDressing: [],
+    setDressing: ["body"],
     light: "lit",
     north: ["NA", "NA"],
     south: ["NA", "NA"],
