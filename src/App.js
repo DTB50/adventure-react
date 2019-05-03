@@ -88,7 +88,7 @@ class App extends Component {
         return;
       }
       else if (currentAction === ""){
-        this.setState({ resultMessage: currentAction + "You did nothing." });
+        this.setState({ resultMessage: currentAction + "You did nothing, just as you were asked." });
         return;
       }
       else if (currentAction === "restart"){
