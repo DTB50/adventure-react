@@ -274,61 +274,67 @@ check(thingToCheck, room) {
 // USE  ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-use(subject, object, room) {
+use(useThis, onThis, room) {
   //set up check variables
-  let subjectInInventory = false;
-  let objectInRoom = false;
-  let objectInInventory = false;
+  let useThisInInventory = false;
+  let onThisInRoom = false;
+  let onThisInInventory = false;
 // check inventory for current item (subject)
   for (let i = 0; i < pickups.length; i++){
-    if (pickups[i].name === subject){
+    if (pickups[i].name === useThis){
       if (pickups[i].inInventory === true){
-        subjectInInventory = true;
+        useThisInInventory = true;
       }
     }
+  }
+
+  for (let i = 0; i < pickups.length; i++){
+    if (pickups[i].name === onThis){
+      if (pickups[i].inInventory === true){
+        onThisInInventory = true;
+      }
+    }
+  }
+
+  if (room.obstacles.includes(onThis)){
+    onThisInRoom = true;
   }
 // if obstacle is in current room, check if the subject name matches the obstacles' solve property
 // display the corresponding message and alter the room state and inventory as required
-  if (subjectInInventory === true){
-    //check if the object is also in the INVENTORY first
-    for (let i = 0; i < pickups.length; i++){
-      if (pickups[i].name === object){
-        if (pickups[i].inInventory === true){
-          objectInInventory = true;
-        }
-      }
-    }
-    //then check if it's in the room and if so, solve the puzzle
-    if (room.obstacles.includes(object)){
-      objectInRoom = true;
-      let validSolution = this.checkSolution(subject, object);
-      if (validSolution[0] === "true") {
-        this.alterObstacleState(subject, true);
-        this.setState({ resultMessage: validSolution[1]}, () => {
-          let newRoomText = this.compileRoomDescription(room, () => {
-            this.setState({ currentRoomText: newRoomText });
-        });
 
+  //then check if it's in the room and if so, solve the puzzle
+  if (useThisInInventory === true && onThisInRoom === true){
+    let validSolution = this.checkSolution(useThis, onThis);
+    if (validSolution[0] === "true") {
+      this.alterObstacleState(useThis, true);
+      this.setState({ resultMessage: validSolution[1]}, () => {
+        let newRoomText = this.compileRoomDescription(room, () => {
+          this.setState({ currentRoomText: newRoomText });
         });
-      }
-      else if (validSolution[0] === "false") {
-        //check if the object is harmful
-        this.checkHarm(validSolution);
-        return;
-      }
+      });
+    }
+    else if (validSolution[0] === "false") {
+      //check if the object is harmful
+      this.checkHarm(validSolution);
+      return;
+    }
+    else if (validSolution[0] === "solved"){
+      this.setState({ resultMessage: validSolution[1]});
+      return;
     }
   }
 
-  if (objectInRoom === false && subjectInInventory === false){
-      this.setState({ resultMessage: "This isn't in your inventory, and that isn't even here." })
+
+  if (useThisInInventory === false){
+      this.setState({ resultMessage: "You don't have that." })
     }
-  else if (objectInRoom === true && subjectInInventory === false){
+  else if (onThisInRoom === true && useThisInInventory === false){
     this.setState({ resultMessage: "This isn't in your inventory." });
     }
-  else if (objectInRoom === false && subjectInInventory === true && objectInInventory === false){
+  else if (onThisInRoom === false && useThisInInventory === true && onThisInInventory === false){
     this.setState({ resultMessage: "You can't use this on that, because that isn't here." });
   }
-  else if (objectInInventory === true && subjectInInventory === true && objectInRoom === false){
+  else if (onThisInInventory === true && useThisInInventory === true && onThisInRoom === false){
     this.setState({ resultMessage: "This isn't the kind of game that lets you combine items. At least, not yet." });
   }
 }
@@ -418,16 +424,20 @@ use(subject, object, room) {
     //if the currentSubject is specified as its solution, return true
     for (let i = 0; i < obstacles.length; i++){
       if (obstacles[i].name === currentObject){
-        console.log(currentSubject + " tried against " + obstacles[i].solves);
-        if (obstacles[i].solves === currentSubject){
-          return ["true", obstacles[i].solvedAction, i];
+        if (obstacles[i].solved === false){
+          console.log(currentSubject + " tried against " + obstacles[i].solves);
+          if (obstacles[i].solves === currentSubject){
+            return ["true", obstacles[i].solvedAction, i];
+          }
+          else {
+            return ["false", obstacles[i].failedAction, i];
+          }
         }
         else {
-          return ["false", obstacles[i].failedAction, i];
+          return ["solved", "Why would you do that? You've already sorted that out.", i]
         }
       }
     }
-
   }
 
 ///////////////////////////////////////////////////////////////////////////////
