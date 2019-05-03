@@ -17,7 +17,7 @@ class App extends Component {
       currentRoom: rooms[0],
       userInput: '',
       confirmedUserChoice: '',
-      resultMessage: '',
+      resultMessage: "Welcome to React Quest! Enter your commands below. Enter 'get [thing]' to pick a usable item up, 'go [direction]' to move, 'check [thing]' to examine an obstacle or item, or 'use [thing a] on [thing b]' to resolve obstacles.",
       inventory: [],
       currentRoomText: this.compileInitialRoomDescription(rooms[0]),
       health: 3,
