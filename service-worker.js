@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/adventure-react/precache-manifest.3a17875d6a156da7cd4a308e757d04b6.js"
+  "/adventure-react/precache-manifest.6c7e425200adaa5f31be4306ab8d9a8e.js"
 );
 
 workbox.clientsClaim();
