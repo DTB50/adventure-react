@@ -36,6 +36,7 @@ class App extends Component {
   this.validMoveCheck = this.validMoveCheck.bind(this);
   }
 
+
   ///////////////////////////////////////////////////////////////////
   // PARSE USER INPUTS  /////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////
@@ -82,6 +83,10 @@ class App extends Component {
         this.setState({ resultMessage: currentAction + " what on what?" });
         return;
       }
+      else if (currentAction === "check" || currentAction === "get") {
+        this.setState({ resultMessage: currentAction + " what?" });
+        return;
+      }
       else if (currentAction === ""){
         this.setState({ resultMessage: currentAction + "You did nothing." });
         return;
@@ -91,7 +96,7 @@ class App extends Component {
         return;
       }
       else {
-        this.setState({ resultMessage: currentAction + " what?" });
+        this.setState({ resultMessage: "You scratch your head because you're not familiar with that verb. You're not even sure if " + currentAction + " is a verb." });
         return;
       }
     }
@@ -132,7 +137,7 @@ class App extends Component {
     }
     //for anything else - all are invalid
     else {
-      this.setState({resultMessage: "You give it your best try, but find that you can't do this."});
+      this.setState({resultMessage: "You scratch your head and stare blankly ahead into space because you only know the verbs 'get', 'check', 'go', and 'use'. You don't even know if " + currentAction + " is a verb."});
     }
   }
   else if (this.state.alive === false){
