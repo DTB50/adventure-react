@@ -216,13 +216,13 @@ validMoveCheck (direction, room) {
 ///////////////////////////////////////////////////////
 // LOOK ///////////////////////////////////////////////
 ///////////////////////////////////////////////////////
-check(subject, room) {
+check(thingToCheck, room) {
   console.log(room.setDressing);
 //check if the object is in the room and check if it has been solved
-  if (room.obstacles.includes(subject)){
+  if (room.obstacles.includes(thingToCheck)){
       for (let i = 0; i < obstacles.length; i++){
         //display a message depending on whether it has been solved
-        if (obstacles[i].name === subject && room.roomId === obstacles[i].roomFound){
+        if (obstacles[i].name === thingToCheck && room.roomId === obstacles[i].roomFound){
           if (obstacles[i].solved === false) {
             this.setState({ resultMessage: "You see " + obstacles[i].description1 });
           }
@@ -232,24 +232,30 @@ check(subject, room) {
         }
       }
   }
-  else if (room.setDressing.includes(subject)){
-    console.log("subject is in room");
+  else if (room.setDressing.includes(thingToCheck)){
       for (let i = 0; i < setDressing.length; i++){
-        if (setDressing[i].name === subject && room.roomId === setDressing[i].roomFound){
+        if (setDressing[i].name === thingToCheck && room.roomId === setDressing[i].roomFound){
           this.setState({ resultMessage: setDressing[i].description });
         }
       }
   }
-  else if (room.pickups.includes(subject)){
+  else if (room.pickups.includes(thingToCheck)){
       for (let i = 0; i < pickups.length; i++){
-        if (pickups[i].name === subject && room.roomId === pickups[i].roomFound){
+        if (pickups[i].name === thingToCheck && room.roomId === pickups[i].roomFound){
           this.setState({ resultMessage: "You see " + pickups[i].description1 });
+        }
+      }
+  }
+  else if (this.state.inventory.includes(thingToCheck)){
+      for (let i = 0; i < pickups.length; i++){
+        if (pickups[i].name === thingToCheck){
+          this.setState({ resultMessage: "You are holding " + pickups[i].description1 });
         }
       }
   }
   //ADD CONDITION TO CHECK INVENTORY FOR OBJECT
   //ADD CONDITION TO CHECK INVENTORY
-  else if (subject === "inventory"){
+  else if (thingToCheck === "inventory"){
       if (this.state.inventory.length > 0){
         this.setState({ resultMessage: this.state.inventory });
       }
@@ -326,7 +332,6 @@ use(subject, object, room) {
     this.setState({ resultMessage: "This isn't the kind of game that lets you combine items. At least, not yet." });
   }
 }
-//
 
 ///////////////////////////////////////////////////////////////////
 // GET  ///////////////////////////////////////////////////////////
