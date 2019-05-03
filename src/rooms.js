@@ -55,7 +55,7 @@ var rooms = [
     north: ["NA", "NA"],
     south: ["54", "NA", "an open door to the prison hall"],
     west: ["NA", "NA"],
-    east: ["52", "NA", "the town gate"],
+    east: ["43", "NA", "the town gate"],
     up: ["NA", "NA"],
     down: ["NA", "NA"]
   },

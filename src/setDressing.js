@@ -17,7 +17,7 @@ var setDressing = [
   {
     name: "sign",
     roomFound: "43",
-    description: "The sign reads 'You are now leaving Elfsburg. Ride safely.'",
+    description: "The sign reads 'You are now leaving Elfsburgh. Ride safely.'",
   },
 ]
 

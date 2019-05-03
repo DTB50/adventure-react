@@ -73,7 +73,7 @@ class App extends Component {
   if (this.state.alive === true){
     //Get thing to do verb on
     //Deal with edge cases in user entry
-    if (commandArray.length === 1){
+    if (commandArray.length === 1 || commandArray[1] === ""){
       if (currentAction === "go"){
         this.setState({ resultMessage: currentAction + " where?" });
         return;
