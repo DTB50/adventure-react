@@ -19,7 +19,13 @@ class App extends Component {
       confirmedUserChoice: '',
       resultMessage: '',
       inventory: [],
-      currentRoomText: this.compileInitialRoomDescription(rooms[0])
+      currentRoomText: this.compileInitialRoomDescription(rooms[0]),
+      health: 3,
+      alive: true,
+      resetRooms: rooms.slice(),
+      resetObstacles: obstacles.slice(),
+      resetSetDressing: setDressing.slice(),
+      resetPickups: pickups.slice()
     };
 
 
@@ -38,7 +44,6 @@ class App extends Component {
   handleInput (event) {
       this.setState({ userInput: event.target.value });
       // console.log(this.state.userInput);
-
   }
 
   //USER CONFIRMS CHOICE
@@ -65,49 +70,80 @@ class App extends Component {
     //Get verb
     currentAction = commandArray[0].toLowerCase();
 
-  //Get thing to do verb on
-  //Deal with edge cases in user entry
-  if (commandArray.length <= 2){
-    if (commandArray[1] === "the"){
-      currentSubject = commandArray[2].toLowerCase();
+  if (this.state.alive === true){
+    //Get thing to do verb on
+    //Deal with edge cases in user entry
+    if (commandArray.length === 1){
+      if (currentAction === "go"){
+        this.setState({ resultMessage: currentAction + " where?" });
+        return;
+      }
+      else if (currentAction === "use") {
+        this.setState({ resultMessage: currentAction + " what on what?" });
+        return;
+      }
+      else if (currentAction === ""){
+        this.setState({ resultMessage: currentAction + "You did nothing." });
+        return;
+      }
+      else if (currentAction === "restart"){
+        this.restartGame();
+        return;
+      }
+      else {
+        this.setState({ resultMessage: currentAction + " what?" });
+        return;
+      }
+    }
+    else if (commandArray.length <= 2){
+      if (commandArray[1] === "the"){
+        currentSubject = commandArray[2].toLowerCase();
+      }
+      else {
+          currentSubject = commandArray[1].toLowerCase();
+      }
     }
     else {
-        currentSubject = commandArray[1].toLowerCase();
+      if (commandArray[1] === "the"){
+        currentSubject = commandArray[2].toLowerCase();
+        currentObject = commandArray[4].toLowerCase();
+      }
+      else {
+          currentSubject = commandArray[1].toLowerCase();
+          currentObject = commandArray[3].toLowerCase();
+      }
     }
-  }
-  else {
-    if (commandArray[1] === "the"){
-      currentSubject = commandArray[2].toLowerCase();
-      currentObject = commandArray[4].toLowerCase();
+
+
+    console.log(currentAction + " : " + currentSubject + ":" + currentObject);
+
+    //Activate a function depending on the user's command - add contingency for command array being at least two words
+    if (currentAction === "go") {
+      this.changeRoom(currentSubject, room);
     }
+    else if (currentAction === "get"){
+      this.get(currentSubject, room);
+    }
+    else if (currentAction === "check"){
+      this.check(currentSubject, room);
+    }
+    else if (currentAction === "use"){
+      this.use(currentSubject, currentObject, room);
+    }
+    //for anything else - all are invalid
     else {
-        currentSubject = commandArray[1].toLowerCase();
-        currentObject = commandArray[3].toLowerCase();
+      this.setState({resultMessage: "You give it your best try, but find that you can't do this."});
     }
   }
-
-
-  console.log(currentAction + " : " + currentSubject + ":" + currentObject);
-
-  //Activate a function depending on the user's command
-  if (currentAction === "go") {
-    this.changeRoom(currentSubject, room);
-  }
-  else if (currentAction === "get"){
-    this.get(currentSubject, room);
-  }
-  else if (currentAction === "check"){
-    this.check(currentSubject, room);
-  }
-  else if (currentAction === "use"){
-    this.use(currentSubject, currentObject, room);
-  }
-  //for anything else - all are invalid
-  else {
-    this.setState({resultMessage: "You give it your best try, but find that you can't do this."})
+  else if (this.state.alive === false){
+      if (currentAction === "restart") {
+        this.restartGame();
+      }
+      else {
+        this.setState({resultMessage: "You are too dead to do this. Type 'restart' to try again."});
+      }
   }
   //End of parse function
-
 }
 
 /////////////////////////////////////////////////////
@@ -270,7 +306,9 @@ use(subject, object, room) {
         });
       }
       else if (validSolution[0] === "false") {
-        this.setState({ resultMessage: validSolution[1] });
+        //check if the object is harmful
+        this.checkHarm(validSolution);
+        return;
       }
     }
   }
@@ -377,10 +415,10 @@ use(subject, object, room) {
       if (obstacles[i].name === currentObject){
         console.log(currentSubject + " tried against " + obstacles[i].solves);
         if (obstacles[i].solves === currentSubject){
-          return ["true", obstacles[i].solvedAction];
+          return ["true", obstacles[i].solvedAction, i];
         }
         else {
-          return ["false", obstacles[i].failedAction];
+          return ["false", obstacles[i].failedAction, i];
         }
       }
     }
@@ -390,6 +428,10 @@ use(subject, object, room) {
 ///////////////////////////////////////////////////////////////////////////////
 // OTHER //////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////
+//Put together room description  /////////////////
+//////////////////////////////////////////////////
 
   compileRoomDescription (room, callback) {
     let descriptionText = "";
@@ -442,7 +484,6 @@ use(subject, object, room) {
       }
     }
 
-
     //Check for items and list these
     if (room.pickups.length === 0){
       descriptionText = descriptionText + " You don't see anything worth picking up."
@@ -468,6 +509,10 @@ use(subject, object, room) {
     //setstate the room decsription
         this.setState({currentRoomText: descriptionText});
   }
+
+//////////////////////////////////////////////////
+//Put together initial room description  /////////
+//////////////////////////////////////////////////
 
   //For initial setup - returns text string instead of setState
   compileInitialRoomDescription (room) {
@@ -556,6 +601,55 @@ use(subject, object, room) {
   //         }
   //       }
   //     }
+
+  //////////////////////////////////////////////////
+  // Health system  ////////////////////////////////
+  //////////////////////////////////////////////////
+
+  checkHarm (validSolution) {
+    //if failed puzzle is harmful, reduce health by 1
+    //scan obstacle array for obstacle matching room and obstacle name
+    //if harmful, decrement health;
+    if (obstacles[validSolution[2]].failIsHarmful === true){
+        console.log("fail is harmful");
+        let healthLeft = this.state.health;
+        healthLeft--;
+        this.setState({ health: healthLeft });
+        }
+    //if health is 0, end game
+    if (this.state.health === 0){
+      this.setState({ alive: false });
+      this.setState({ resultMessage: validSolution[1] + " You died. Enter 'restart' to try again." });
+    }
+    else {
+      this.setState({ resultMessage: validSolution[1] + " It hurt. You have " + this.state.health + " hits left in you."});
+    }
+    //Print status message and disable functions other than restart
+  }
+
+  restartGame() {
+    //restore React state props to initialised states
+    //reset all arrays to original state
+    this.setState({ rooms: this.state.resetRooms });
+    this.setState({ obstacles: this.state.resetRooms });
+    this.setState({ setDressing: this.state.resetSetDressing });
+    this.setState({ pickups: this.state.resetPickups });
+
+    //clear INVENTORY
+    this.setState({ inventory: [] });
+
+    //restore health
+    this.setState({ health: 3 });
+    this.setState({ alive: true });
+
+    //clear user messages
+    this.setState({ resultMessage: "You restarted the game." });
+
+    //place user in initial room
+    this.setState({ currentRoom: rooms[0] });
+    this.setState({ currentRoomText: this.compileInitialRoomDescription(rooms[0]) });
+  }
+
 
   //Put it all together
   render() {

@@ -2,13 +2,13 @@ var obstacles = [
   {
     name: "door",
     roomFound: "55",
-    description1: "a heavy wooden door, too strong to break down and locked with a heavy padlock.",
+    description1: "a heavy wooden door, too strong to break down and locked with a heavy padlock. You're pretty sure it's also enchanted. And by enchanted, you mean 'dangerously cursed'.",
     descriptionSolved: "a heavy wooden door, now unlocked and open.",
-    failedAction: "The door remains unopened.",
+    failedAction: "The door remains unopened, and you are struck by a magical force. It's definitely dangerously cursed.",
     solvedAction: "With a creak, the door swings open.",
     solves: "key",
     solved: false,
-    failIsHarmful: false
+    failIsHarmful: true
   },
   {
     name: "darkness",

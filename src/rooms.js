@@ -30,21 +30,6 @@ var rooms = [
     down: ["NA", "NA"]
   },
   {
-    roomId: "53",
-    title: "Outside the prison",
-    description: "A small clearing outside the prison. Definitely more open than the prison.",
-    pickups: [],
-    obstacles: [],
-    setDressing: [],
-    light: "lit",
-    north: ["NA", "NA"],
-    south: ["54", "NA", "an open door to the prison hall"],
-    west: ["NA", "NA"],
-    east: ["NA", "NA"],
-    up: ["NA", "NA"],
-    down: ["NA", "NA"]
-  },
-  {
     roomId: "44",
     title: "Another prison cell",
     description: "This stone cell isn't as nice as the one you woke up in. For one thing, yours didn't have a body in the corner. Well, aside from your own, which was still alive. You decide resolutely not to interact with the body, so don't even try it.",
@@ -56,6 +41,36 @@ var rooms = [
     south: ["NA", "NA"],
     west: ["NA", "NA"],
     east: ["54", "NA", "an open door to the prison hall"],
+    up: ["NA", "NA"],
+    down: ["NA", "NA"]
+  },
+  {
+    roomId: "53",
+    title: "Outside the prison",
+    description: "A small clearing outside the prison. Definitely more open than the prison.",
+    pickups: [],
+    obstacles: [],
+    setDressing: [],
+    light: "lit",
+    north: ["NA", "NA"],
+    south: ["54", "NA", "an open door to the prison hall"],
+    west: ["NA", "NA"],
+    east: ["52", "NA", "the town gate"],
+    up: ["NA", "NA"],
+    down: ["NA", "NA"]
+  },
+  {
+    roomId: "43",
+    title: "Town gate",
+    description: "The way out of town.",
+    pickups: [""],
+    obstacles: [""],
+    setDressing: ["sign"],
+    light: "lit",
+    north: ["NA", "NA"],
+    south: ["NA", "NA"],
+    west: ["53", "outside the prison"],
+    east: ["42", "NA", "a road"],
     up: ["NA", "NA"],
     down: ["NA", "NA"]
   }

@@ -13,7 +13,12 @@ var setDressing = [
     name: "note",
     roomFound: "54",
     description: "The note reads 'By order of Grimloth the Wise, this prison has been escalated to a maximum maximum security facility'. That does explain the big rock.",
-  }
+  },
+  {
+    name: "sign",
+    roomFound: "43",
+    description: "The sign reads 'You are now leaving Elfsburg. Ride safely.'",
+  },
 ]
 
 export default setDressing;
