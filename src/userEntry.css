@@ -33,7 +33,7 @@ button {
         position: relative;
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 90%;
         height: 20%;
         min-height: 20%;
         max-height:20%;
