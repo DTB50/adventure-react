@@ -27,7 +27,7 @@
       justify-content: center;
       width: 100vw;
       height: 100vh;
-      padding-left: 10px;
+      padding-left: none;
       background-color: #008724;
       border-radius: none;
       font-family: 'Press Start 2P', cursive;
