@@ -43,6 +43,7 @@ button {
 
     .UserInput {
       height: 50%;
+      width: 100%;
       background-color: #008724;
       border: none;
       color: white;
@@ -51,6 +52,7 @@ button {
 
     button {
       height: 50%;
+      width: 100%;
       background-color: black;
       color: white;
       font-family: 'Press Start 2P', cursive;
