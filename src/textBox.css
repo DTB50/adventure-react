@@ -7,3 +7,22 @@
     /* border: 1px solid black; */
     color: white
 }
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+
+    .textBox {
+        position: relative;
+        width: 90%;
+        height: 30%;
+        min-height: 30%;
+        max-height:30%;
+        /* border: 1px solid black; */
+        color: white
+    }
+
+
+}
