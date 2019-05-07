@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/adventure-react/static/js/runtime~main.859fc518.js"
   },
   {
-    "revision": "b063bf3f8aa7374106a8",
+    "revision": "463874e16b5856e2d398",
     "url": "/adventure-react/static/js/main.ef07a523.chunk.js"
   },
   {
@@ -12,11 +12,11 @@ self.__precacheManifest = [
     "url": "/adventure-react/static/js/2.ea93b2ed.chunk.js"
   },
   {
-    "revision": "b063bf3f8aa7374106a8",
-    "url": "/adventure-react/static/css/main.30f9de0d.chunk.css"
+    "revision": "463874e16b5856e2d398",
+    "url": "/adventure-react/static/css/main.5de45fe0.chunk.css"
   },
   {
-    "revision": "5f3e8c90f93c0830b120ab7530a080b6",
+    "revision": "649a0a3f0c09c71ab311bfe3cc2682c6",
     "url": "/adventure-react/index.html"
   }
 ];
