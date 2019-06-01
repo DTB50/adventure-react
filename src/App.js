@@ -56,7 +56,7 @@ class App extends Component {
     //Clear the textbox
   }
 
-  //ENTRY IS PARSED INTO ACTIONS
+   //ENTRY IS PARSED INTO ACTIONS
   parseEntry(input, room) {
     console.log("state at parseEntry:");
     console.log(this.state.currentRoom);
@@ -74,6 +74,7 @@ class App extends Component {
   if (this.state.alive === true){
     //Get thing to do verb on
     //Deal with edge cases in user entry
+    //User has only entered a verb
     if (commandArray.length === 1 || commandArray[1] === ""){
       if (currentAction === "go"){
         this.setState({ resultMessage: currentAction + " where?" });
@@ -100,6 +101,7 @@ class App extends Component {
         return;
       }
     }
+    //User has entered terms like "the"
     else if (commandArray.length <= 2){
       if (commandArray[1] === "the"){
         currentSubject = commandArray[2].toLowerCase();

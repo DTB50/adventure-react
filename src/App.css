@@ -29,7 +29,7 @@
       height: 100vh;
       padding-left: none;
       background-color: #008724;
-      border-radius: none;
+      border-radius: 0px;
       font-family: 'Press Start 2P', cursive;
       font-size: 12px
     }
