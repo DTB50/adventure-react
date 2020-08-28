@@ -54,6 +54,7 @@ class App extends Component {
     this.setState({confirmedUserChoice: this.state.userInput });
     this.parseEntry(this.state.userInput, this.state.currentRoom);
     //Clear the textbox
+    this.setState({ userInput: "" });
   }
 
    //ENTRY IS PARSED INTO ACTIONS
